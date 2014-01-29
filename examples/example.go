@@ -17,7 +17,11 @@ func errHndlr(err error) {
 }
 
 func main() {
-	c, err := redis.DialTimeout("tcp", "127.0.0.1:6379", time.Duration(10)*time.Second)
+	// time.ParseDuration returns a time.Duration type (go1.2)
+	duration, err := time.ParseDuration("10s")
+	errHndlr(err)
+	
+	c, err := redis.DialTimeout("tcp", "127.0.0.1:6379", duration)
 	errHndlr(err)
 	defer c.Close()
 
